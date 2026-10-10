@@ -68,8 +68,10 @@
         3.859,
         0.914
       ],
+      "confidence": 1.0,
+      "path_ok": true,
       "label": "chair-sized object",
-      "text": "The chair-sized object moved 2.31 m (+2.15 m in x and +0.83 m in y). It was at (1.8, 2.8) and is now at (4.0, 3.6)."
+      "text": "The chair-sized object moved 2.31 m (+2.15 m in x and +0.83 m in y). It was at (1.8, 2.8) and is now at (4.0, 3.6). Free-space path confirmed."
     },
     {
       "kind": "removed",
@@ -93,6 +95,7 @@
         0.799,
         0.494
       ],
+      "confidence": 0.999,
       "label": "small object (bag or box)",
       "text": "A small object (bag or box) that was in the first recording is gone from (4.7, 0.7)."
     },
@@ -118,6 +121,7 @@
         4.399,
         0.674
       ],
+      "confidence": 1.0,
       "label": "small object (bag or box)",
       "text": "A new small object (bag or box) appeared at (2.5, 4.1), about 0.60 m tall."
     }

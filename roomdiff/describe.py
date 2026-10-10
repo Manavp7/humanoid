@@ -30,22 +30,33 @@ def _shift(a, b):
     return f"{d[0]:+.2f} m in x and {d[1]:+.2f} m in y"
 
 
+def _evidence_note(c):
+    conf = float(c.get("confidence", 1.0))
+    if conf < 0.35:
+        return " Low evidence (few agreeing rays)."
+    if conf < 0.55:
+        return " Moderate evidence."
+    return ""
+
+
 def describe(changes, unit="m", label_fn=None):
     lines = []
     for c in changes:
         label = label_fn(c) if label_fn is not None else label_for(c["size"])
         c["label"] = label
         at = c["at"]
+        note = _evidence_note(c)
         if c["kind"] == "moved":
+            path = " Free-space path confirmed." if c.get("path_ok") else ""
             c["text"] = (f"The {label} moved {c['distance']:.2f} {unit} ({_shift(at, c['to'])}). "
                          f"It was at ({at[0]:.1f}, {at[1]:.1f}) and is now at "
-                         f"({c['to'][0]:.1f}, {c['to'][1]:.1f}).")
+                         f"({c['to'][0]:.1f}, {c['to'][1]:.1f}).{path}{note}")
         elif c["kind"] == "added":
             c["text"] = (f"A new {label} appeared at ({at[0]:.1f}, {at[1]:.1f}), "
-                         f"about {c['size'][2]:.2f} {unit} tall.")
+                         f"about {c['size'][2]:.2f} {unit} tall.{note}")
         else:
             c["text"] = (f"{_article(label)} {label} that was in the first recording is gone from "
-                         f"({at[0]:.1f}, {at[1]:.1f}).")
+                         f"({at[0]:.1f}, {at[1]:.1f}).{note}")
         lines.append(c["text"])
     return lines
 

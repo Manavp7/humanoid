@@ -1,4 +1,4 @@
-"""Compare two recordings of the same room: python -m roomdiff demo | videos --before A --after B"""
+"""Compare two recordings of the same room: python -m roomdiff demo | ablation | videos ..."""
 import argparse
 import os
 import pathlib
@@ -28,6 +28,10 @@ def main(argv=None):
     s_ = sub.add_parser("sample", help="render two sample phone-style videos with the same changes")
     s_.add_argument("--out", default="examples/sample_videos")
 
+    ab = sub.add_parser("ablation", help="naive occupancy diff vs visibility-first (occlusion counterexample)")
+    ab.add_argument("--out", default="examples/ablation")
+    ab.add_argument("--voxel", type=float, default=0.06)
+
     v = sub.add_parser("videos", help="two phone videos of the same room")
     v.add_argument("--before", required=True, help="first recording (mp4/mov)")
     v.add_argument("--after", required=True, help="second recording (mp4/mov)")
@@ -45,6 +49,11 @@ def main(argv=None):
 
     if args.cmd == "sample":
         print("wrote", synth.write_videos(args.out))
+        return 0
+
+    if args.cmd == "ablation":
+        from .ablation import run_ablation
+        run_ablation(args.out, voxel=args.voxel)
         return 0
 
     if args.cmd == "demo":
