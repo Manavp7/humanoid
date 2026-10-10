@@ -46,7 +46,7 @@ python -m roomdiff videos --before examples/sample_videos/before.mp4 \
 python -m roomdiff videos --before my_before.mov --after my_after.mov --out output/mine --fps 3
 ```
 
-Open `viewer.html` in a browser. It loads three.js from a CDN, so it needs internet access.
+Open `viewer.html` in a browser. three.js is copied next to it in `vendor/`, so no internet access is needed. Browsers block module imports from `file://`, so serve the folder instead, e.g. `python -m http.server -d examples/demo` and open `http://localhost:8000/viewer.html`.
 
 ## Example outputs
 
@@ -84,12 +84,13 @@ with the same changes (the chair moves, the backpack is removed, a bin is added)
 - **Sparse reconstruction.** The video path uses COLMAP's sparse points, which are far fewer than the
   surface samples in the synthetic demo. On the generated sample videos the pipeline runs, but finds no
   changes, because there are too few occupied voxels. The next step is dense per-frame depth
-  (Depth Anything V2 on CPU, scaled to the COLMAP points), which feeds the same occupancy code.
+  (Depth Anything V2 on CPU, scaled to the COLMAP points), which feeds the same occupancy code. The weights
+  come from Hugging Face, which was unreachable from the build sandbox, so that step was not done.
 - **Scale.** COLMAP's scale is arbitrary. Without `--scale` distances are in reconstruction units.
 - **Labels are shape guesses.** `roomdiff/describe.py` labels objects from footprint and height. CLIP
   on the frame crops would give real names; it is not wired in yet.
-- **Not tested here:** the 3D viewer in a browser (the CDN was unreachable from the build sandbox), and
-  real phone recordings.
+- **Not tested here:** real phone recordings. The 3D viewer was checked in headless Chromium, with three.js
+  vendored (r158, MIT licence in `roomdiff/vendor/`).
 
 ## Layout
 
@@ -103,4 +104,5 @@ roomdiff/
   describe.py          labels, sentences, ground-truth evaluation
   pipeline.py          analysis entry point and stats
   viewer.py            HTML viewer, top-down PNG, Markdown report
+  vendor/              three.js r158 (module build and OrbitControls) copied into each output
 ```
