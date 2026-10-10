@@ -1,0 +1,4 @@
+numpy
+scipy
+opencv-python-headless
+pycolmap    # only needed for the real-video path (python -m roomdiff videos ...)
