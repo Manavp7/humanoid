@@ -74,6 +74,9 @@ Evaluation against the ground truth in the generated scene: 3 of 3 changes found
 Sample inputs: `examples/sample_videos/before.mp4` and `after.mp4`. Dense-depth outputs land in
 `examples/videos_dense/` after you run the `videos` command above.
 
+Real-video example (VSCD env2): outputs in `examples/real_vscd/output/` (source MP4s from
+[Hugging Face VSCD](https://huggingface.co/datasets/jiae1234/vscd); not vendored here).
+
 ## Design choices and tradeoffs
 
 - **Geometry first, labels second.** Where something changed is decided from 3D occupancy and visibility.

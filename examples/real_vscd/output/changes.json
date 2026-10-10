@@ -1,0 +1,201 @@
+{
+  "title": "VSCD env2 (real): what changed?",
+  "stats": {
+    "voxel": 0.12,
+    "unit": "units",
+    "grid_shape": [
+      63,
+      106,
+      140
+    ],
+    "voxels_total": 934920,
+    "voxels_seen_in_both": 162396,
+    "voxels_seen_in_both_pct": 17.4,
+    "voxels_unverified": 2572,
+    "static_occupied": 108,
+    "changes": 7,
+    "kinds": {
+      "moved": 0,
+      "added": 4,
+      "removed": 3
+    },
+    "labels": "clip"
+  },
+  "changes": [
+    {
+      "kind": "removed",
+      "at": [
+        -1.305,
+        1.336,
+        7.874
+      ],
+      "size": [
+        0.72,
+        1.32,
+        0.48
+      ],
+      "lo": [
+        -1.712,
+        0.833,
+        7.685
+      ],
+      "hi": [
+        -0.992,
+        2.153,
+        8.165
+      ],
+      "label": "bag",
+      "text": "A bag that was in the first recording is gone from (-1.3, 1.3)."
+    },
+    {
+      "kind": "removed",
+      "at": [
+        -0.08,
+        -0.149,
+        7.927
+      ],
+      "size": [
+        1.44,
+        2.04,
+        0.96
+      ],
+      "lo": [
+        -0.872,
+        -1.207,
+        7.565
+      ],
+      "hi": [
+        0.568,
+        0.833,
+        8.525
+      ],
+      "label": "chair",
+      "text": "A chair that was in the first recording is gone from (-0.1, -0.1)."
+    },
+    {
+      "kind": "removed",
+      "at": [
+        0.331,
+        -0.379,
+        5.969
+      ],
+      "size": [
+        0.48,
+        0.96,
+        0.96
+      ],
+      "lo": [
+        0.088,
+        -0.847,
+        5.525
+      ],
+      "hi": [
+        0.568,
+        0.113,
+        6.485
+      ],
+      "label": "table",
+      "text": "A table that was in the first recording is gone from (0.3, -0.4)."
+    },
+    {
+      "kind": "added",
+      "at": [
+        -3.156,
+        -6.163,
+        11.721
+      ],
+      "size": [
+        0.48,
+        1.08,
+        0.72
+      ],
+      "lo": [
+        -3.392,
+        -6.727,
+        11.285
+      ],
+      "hi": [
+        -2.912,
+        -5.647,
+        12.005
+      ],
+      "label": "bin",
+      "text": "A new bin appeared at (-3.2, -6.2), about 0.72 units tall."
+    },
+    {
+      "kind": "added",
+      "at": [
+        -2.469,
+        0.431,
+        7.533
+      ],
+      "size": [
+        0.6,
+        0.72,
+        0.36
+      ],
+      "lo": [
+        -2.672,
+        0.113,
+        7.325
+      ],
+      "hi": [
+        -2.072,
+        0.833,
+        7.685
+      ],
+      "label": "box",
+      "text": "A new box appeared at (-2.5, 0.4), about 0.36 units tall."
+    },
+    {
+      "kind": "added",
+      "at": [
+        -1.869,
+        -0.345,
+        7.125
+      ],
+      "size": [
+        1.08,
+        0.6,
+        0.72
+      ],
+      "lo": [
+        -2.312,
+        -0.607,
+        6.845
+      ],
+      "hi": [
+        -1.232,
+        -0.007,
+        7.565
+      ],
+      "label": "lamp",
+      "text": "A new lamp appeared at (-1.9, -0.3), about 0.72 units tall."
+    },
+    {
+      "kind": "added",
+      "at": [
+        -1.076,
+        -0.583,
+        6.491
+      ],
+      "size": [
+        0.72,
+        0.48,
+        0.72
+      ],
+      "lo": [
+        -1.472,
+        -0.847,
+        6.125
+      ],
+      "hi": [
+        -0.752,
+        -0.367,
+        6.845
+      ],
+      "label": "box",
+      "text": "A new box appeared at (-1.1, -0.6), about 0.72 units tall."
+    }
+  ]
+}
