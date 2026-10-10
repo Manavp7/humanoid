@@ -1,4 +1,14 @@
 __pycache__/
 *.pyc
-output/
+/output/
 venv/
+
+# Real-video downloads / COLMAP workdirs (keep examples/real_vscd/output only)
+examples/real_vscd/**/*.mp4
+examples/real_vscd/**/frames/
+examples/real_vscd/**/frames_probe/
+examples/real_vscd/**/colmap/
+examples/real_vscd/**/colmap_probe/
+examples/real_vscd/**/work/
+examples/real_vscd/**/work_run/
+examples/real_vscd/env2/
