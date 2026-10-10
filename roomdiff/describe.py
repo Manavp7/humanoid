@@ -1,7 +1,7 @@
 """Plain-language labels and descriptions for detected changes.
 
-Labels here are shape-based guesses (footprint and height). They are a stand-in for an
-open-vocabulary model such as CLIP, which would name crops of the video frames instead.
+Default labels are shape-based guesses (footprint and height). The video path can pass a
+CLIP-backed label_fn that names crops of the registered frames instead.
 """
 import numpy as np
 
@@ -21,15 +21,19 @@ def label_for(size):
     return "low box"
 
 
+def _article(label):
+    return "An" if label[:1].lower() in "aeiou" else "A"
+
+
 def _shift(a, b):
     d = np.asarray(b) - np.asarray(a)
     return f"{d[0]:+.2f} m in x and {d[1]:+.2f} m in y"
 
 
-def describe(changes, unit="m"):
+def describe(changes, unit="m", label_fn=None):
     lines = []
     for c in changes:
-        label = label_for(c["size"])
+        label = label_fn(c) if label_fn is not None else label_for(c["size"])
         c["label"] = label
         at = c["at"]
         if c["kind"] == "moved":
@@ -40,7 +44,7 @@ def describe(changes, unit="m"):
             c["text"] = (f"A new {label} appeared at ({at[0]:.1f}, {at[1]:.1f}), "
                          f"about {c['size'][2]:.2f} {unit} tall.")
         else:
-            c["text"] = (f"A {label} that was in the first recording is gone from "
+            c["text"] = (f"{_article(label)} {label} that was in the first recording is gone from "
                          f"({at[0]:.1f}, {at[1]:.1f}).")
         lines.append(c["text"])
     return lines

@@ -7,14 +7,15 @@ from .voxels import FREE, OCC
 _NEIGHBOURHOOD = np.ones((3, 3, 3), bool)
 
 
-def find_changes(s_before, s_after, grid, min_voxels=12, max_move=3.0, max_shape_diff=0.4):
+def find_changes(s_before, s_after, grid, min_voxels=12, max_move=3.0, max_shape_diff=0.4, edge=1):
     # Only report where BOTH recordings looked: occupied in one and seen empty in the other.
     # UNKNOWN on either side is never a change. A voxel right next to a surface seen in the
     # other recording is excluded too: surface positions jitter by about a voxel between passes,
     # so those voxels are edge noise rather than missing objects.
     occ_b, occ_a = s_before == OCC, s_after == OCC
-    near_b = ndimage.binary_dilation(occ_b, structure=_NEIGHBOURHOOD)
-    near_a = ndimage.binary_dilation(occ_a, structure=_NEIGHBOURHOOD)
+    struct = np.ones((2 * edge + 1,) * 3, bool) if edge != 1 else _NEIGHBOURHOOD
+    near_b = ndimage.binary_dilation(occ_b, structure=struct)
+    near_a = ndimage.binary_dilation(occ_a, structure=struct)
     removed = _clusters(occ_b & (s_after == FREE) & ~near_a, grid, min_voxels)
     added = _clusters(occ_a & (s_before == FREE) & ~near_b, grid, min_voxels)
     return _pair(removed, added, max_move, max_shape_diff)

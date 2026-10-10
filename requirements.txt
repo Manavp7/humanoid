@@ -2,3 +2,6 @@ numpy
 scipy
 opencv-python-headless
 pycolmap    # only needed for the real-video path (python -m roomdiff videos ...)
+torch       # Depth Anything V2 + CLIP (videos path; demo works without these)
+transformers
+pillow
