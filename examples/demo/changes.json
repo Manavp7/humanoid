@@ -19,6 +19,7 @@
       "added": 1,
       "removed": 1
     },
+    "labels": "shape",
     "evaluation": {
       "true_positive": 3,
       "false_positive": 0,

@@ -134,9 +134,12 @@ const COL = {moved:0xf0a030, added:0x3cb371, removed:0xe0484a};
 
 document.getElementById('title').textContent = DATA.title;
 const s = DATA.stats;
+const labelNote = (s.labels === 'clip')
+  ? 'Labels come from CLIP on frame crops.'
+  : 'Labels are shape-based guesses.';
 document.getElementById('notes').textContent =
   `${s.voxels_seen_in_both_pct}% of the room was seen by both recordings. Only that part is compared. ` +
-  `Units: ${DATA.unit}. Labels are shape-based guesses.`;
+  `Units: ${DATA.unit}. ${labelNote}`;
 
 const view = document.getElementById('view');
 const renderer = new THREE.WebGLRenderer({antialias: true});

@@ -106,7 +106,7 @@ def _trajectory(center, radius, z, phase, n, target_z):
     return pos, target
 
 
-def write_videos(out_dir, fps=10, n_frames=80, size=(320, 240), focal=250.0):
+def write_videos(out_dir, fps=10, n_frames=80, size=(640, 480), focal=500.0):
     """Render two phone-like walks around the room, with the object changes between them."""
     import cv2
     out = pathlib.Path(out_dir)
