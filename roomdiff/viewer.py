@@ -1,8 +1,12 @@
 """Outputs: an interactive 3D HTML viewer (three.js) and a top-down PNG."""
 import json
+import pathlib
+import shutil
 
 import cv2
 import numpy as np
+
+VENDOR = pathlib.Path(__file__).parent / "vendor"
 
 _RNG = np.random.default_rng(0)
 
@@ -28,6 +32,8 @@ def write_outputs(out, changes, static, lo, hi, stats, lines, title, unit):
         stats=stats,
     )
     (out / "viewer.html").write_text(_html(data))
+    # three.js is copied next to the page so the viewer works offline and needs no CDN.
+    shutil.copytree(VENDOR, out / "vendor", dirs_exist_ok=True)
     _topdown_png(out / "topdown.png", changes, static, lo, hi, unit)
     _report_md(out / "report.md", title, stats, lines, unit)
 
@@ -101,8 +107,8 @@ canvas{display:block}
 @media (max-width:700px){body{flex-direction:column;height:auto}#side{width:auto;border-right:none;border-bottom:1px solid var(--line)}#view{height:70vh}}
 </style>
 <script type="importmap">
-{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.158.0/build/three.module.js",
-"three/addons/":"https://cdn.jsdelivr.net/npm/three@0.158.0/examples/jsm/"}}
+{"imports":{"three":"./vendor/three.module.js",
+"three/addons/controls/OrbitControls.js":"./vendor/OrbitControls.js"}}
 </script>
 </head>
 <body>
