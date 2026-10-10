@@ -27,6 +27,8 @@ def write_outputs(out, changes, static, lo, hi, stats, lines, title, unit):
         title=title, unit=unit, lo=np.round(lo, 3).tolist(), hi=np.round(hi, 3).tolist(),
         static=np.round(_subsample(static, 25000), 3).tolist(),
         changes=[dict(kind=c["kind"], label=c["label"], text=c["text"],
+                      confidence=round(float(c.get("confidence", 1.0)), 3),
+                      path_ok=bool(c["path_ok"]) if "path_ok" in c else None,
                       at=_opt(c, "at"), to=_opt(c, "to"), lo=_opt(c, "lo"), hi=_opt(c, "hi"),
                       to_lo=_opt(c, "to_lo"), to_hi=_opt(c, "to_hi")) for c in changes],
         stats=stats,
@@ -74,6 +76,7 @@ def _report_md(path, title, stats, lines, unit):
            f"(moved {stats['kinds']['moved']}, added {stats['kinds']['added']}, removed {stats['kinds']['removed']}).", ""]
     out += [f"- {line}" for line in lines] or ["No changes found."]
     out += ["", "## Coverage",
+            "- Rule: a change requires occupied in one pass and *seen empty* in the other. Unknown never counts.",
             f"- Voxel size {stats['voxel']} {unit}; grid {stats['grid_shape']}.",
             f"- {stats['voxels_seen_in_both_pct']}% of the box was seen by both recordings. Only that part is compared.",
             f"- {stats['voxels_unverified']} voxels are occupied in one recording and unseen in the other. "
@@ -135,10 +138,11 @@ const COL = {moved:0xf0a030, added:0x3cb371, removed:0xe0484a};
 document.getElementById('title').textContent = DATA.title;
 const s = DATA.stats;
 const labelNote = (s.labels === 'clip')
-  ? 'Labels come from CLIP on frame crops.'
-  : 'Labels are shape-based guesses.';
+  ? 'Labels name crops only; geometry decides where.'
+  : 'Labels are shape guesses; geometry decides where.';
 document.getElementById('notes').textContent =
-  `${s.voxels_seen_in_both_pct}% of the room was seen by both recordings. Only that part is compared. ` +
+  `Change only where both recordings proved free space — unknown is never "removed". ` +
+  `${s.voxels_seen_in_both_pct}% seen by both; ${s.voxels_unverified} voxels unverified. ` +
   `Units: ${DATA.unit}. ${labelNote}`;
 
 const view = document.getElementById('view');
@@ -188,7 +192,8 @@ DATA.changes.forEach((c) => {
     mid = from.clone().add(to).multiplyScalar(0.5);
   }
   const li = document.createElement('li');
-  li.innerHTML = `<span class="k">${c.kind}</span>: ${c.label}<br><span style="color:var(--muted)">${c.text}</span>`;
+  const conf = (c.confidence != null) ? ` · conf ${c.confidence.toFixed(2)}` : '';
+  li.innerHTML = `<span class="k">${c.kind}</span>: ${c.label}${conf}<br><span style="color:var(--muted)">${c.text}</span>`;
   li.onclick = () => { controls.target.copy(mid); camera.position.copy(mid).add(new THREE.Vector3(-3, -3, 2.5)); };
   list.appendChild(li);
 });

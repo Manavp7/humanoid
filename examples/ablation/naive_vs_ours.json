@@ -1,0 +1,23 @@
+{
+  "thesis": "Change only where both recordings proved free space; unknown is never removed.",
+  "naive": {
+    "rule": "occupied_before AND not_occupied_after (UNKNOWN counts as gone)",
+    "removed_clusters": 11,
+    "removed_voxels": 1802,
+    "false_removal_clusters": 10
+  },
+  "ours": {
+    "rule": "occupied_before AND seen_empty_after (UNKNOWN unverified)",
+    "removed_clusters": 1,
+    "removed_voxels": 315,
+    "false_removal_clusters": 0,
+    "reported_changes": 3,
+    "kinds": {
+      "moved": 1,
+      "added": 1,
+      "removed": 1
+    }
+  },
+  "voxels_unverified": 7583,
+  "ground_truth_removed": 1
+}

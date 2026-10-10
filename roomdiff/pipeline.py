@@ -34,7 +34,7 @@ def analyze(before, after, out_dir, voxel=0.06, min_votes=1, unit="m", gt=None, 
         grids.append(g)
     s_b, s_a = grids[0].states(min_votes), grids[1].states(min_votes)
 
-    changes = find_changes(s_b, s_a, grids[0], min_voxels=min_voxels, max_move=max_move,
+    changes = find_changes(s_b, s_a, grids[0], grids[1], min_voxels=min_voxels, max_move=max_move,
                            max_shape_diff=max_shape_diff, edge=edge)
 
     label_fn = None
@@ -60,9 +60,10 @@ def analyze(before, after, out_dir, voxel=0.06, min_votes=1, unit="m", gt=None, 
     if gt is not None:
         stats["evaluation"] = evaluate(changes, gt)
 
+    skip = {"text", "idx"}
     report = dict(title=title, stats=stats, changes=[
         {k: (np.round(v, 3).tolist() if isinstance(v, np.ndarray) else (round(v, 3) if isinstance(v, float) else v))
-         for k, v in c.items() if k not in ("text",)} | {"text": c["text"]} for c in changes])
+         for k, v in c.items() if k not in skip} | {"text": c["text"]} for c in changes])
     (out / "changes.json").write_text(json.dumps(report, indent=2))
     write_outputs(out, changes, static, lo, hi, stats, lines, title, unit)
     return report
